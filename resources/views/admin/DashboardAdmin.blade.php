@@ -1,674 +1,577 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <title>InApp Inventory Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Bootstrap 5 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Tabler Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-
-<!-- CSS Hasil Compile SCSS Template -->
-<link rel="stylesheet" href="{{ asset('assets admin/css/style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kia Fresh Laundry | Dashboard</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets admin/css/style.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets admin/images/favicon_io/apple-touch-icon.png') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets admin/images/favicon_io/favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets admin/images/favicon_io/favicon-16x16.png') }}">
-  <link rel="manifest" href="{{ asset('assets admin/images/favicon_io/site.webmanifest') }}">
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --line: #e6edf5;
+      --text: #1f2937;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --primary-soft: #e8f0ff;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #0ea5e9;
+    }
 
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; }
+
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px 14px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 18px;
+      font-weight: 700;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 12px rgba(37, 99, 235, 0.18);
+      border: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .nav-group {
+      margin-top: 10px;
+    }
+
+    .nav-label {
+      display: block;
+      padding: 10px 12px 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #2d3748;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    .nav-item a:hover,
+    .nav-item.active a {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .nav-item i {
+      width: 18px;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .main-panel {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: 70px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .address-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+    }
+
+    .topbar-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tool-btn {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+    }
+
+    .tool-btn .badge-count {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--danger);
+      color: #fff;
+      font-size: 10px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #fff;
+      font-weight: 700;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #cfe1ff, #9ec5fe);
+      display: grid;
+      place-items: center;
+      color: #1d4ed8;
+      font-weight: 700;
+      box-shadow: 0 6px 12px rgba(37, 99, 235, 0.18);
+    }
+
+    .content {
+      padding: 28px;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .page-header h1 {
+      font-size: 2.1rem;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .page-header p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .primary-btn {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 600;
+      box-shadow: 0 10px 18px rgba(37, 99, 235, 0.2);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.03);
+    }
+
+    .stat-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .bg-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .bg-green { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .bg-cyan { background: linear-gradient(135deg, #06b6d4, #0ea5e9); }
+    .bg-yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
+    .stat-card h2 {
+      margin: 0 0 8px;
+      font-size: 0.83rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .stat-card h3 {
+      margin: 0 0 6px;
+      font-size: clamp(1.6rem, 2vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-card p {
+      margin: 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .text-success-strong { color: var(--success); }
+    .text-info-strong { color: var(--info); }
+    .text-warning-strong { color: #b45309; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .summary-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.03);
+    }
+
+    .summary-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 18px;
+    }
+
+    .summary-header h3 {
+      margin: 0;
+      font-size: clamp(1.7rem, 2vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .summary-header span {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .summary-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .summary-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .summary-meta a {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    @media (max-width: 1100px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .app-shell {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-menu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+      }
+
+      .content {
+        padding: 20px 18px 36px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .address-pill {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div id="overlay" class="overlay"></div>
-  <!-- TOPBAR -->
-  <nav id="topbar" class="navbar bg-white border-bottom fixed-top topbar px-3">
-    <button id="toggleBtn" class="d-none d-lg-inline-flex btn btn-light btn-icon btn-sm ">
-      <i class="ti ti-layout-sidebar-left-expand"></i>
-    </button>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="{{ asset('assets admin/images/kiafresh-logo.png') }}" alt="Kia Fresh Laundry logo">
+        </div>
+        <div>Kia Fresh Laundry</div>
+      </div>
 
-    <!-- MOBILE -->
-    <button id="mobileBtn" class="btn btn-light btn-icon btn-sm d-lg-none me-2">
-      <i class="ti ti-layout-sidebar-left-expand"></i>
-    </button>
-    <div>
-      <!-- Navbar nav -->
-      <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
-        <!-- Pages link -->
+      <div class="nav-group">
+        <span class="nav-label">Main</span>
+        <ul class="nav-menu">
+          <li class="nav-item active"><a href="#"><i class="ti ti-home"></i><span>Dashboard</span></a></li>
+          <li class="nav-item"><a href="#"><i class="ti ti-box"></i><span>Inventory</span></a></li>
+          <li class="nav-item"><a href="#"><i class="ti ti-plus"></i><span>Add Product</span></a></li>
+          <li class="nav-item"><a href="#"><i class="ti ti-file-text"></i><span>Reports</span></a></li>
+          <li class="nav-item"><a href="#"><i class="ti ti-alert-circle"></i><span>404 Error</span></a></li>
+          <li class="nav-item"><a href="#"><i class="ti ti-file-description"></i><span>Docs</span></a></li>
+        </ul>
+      </div>
 
-        <!-- Bell icon -->
-        <li>
-          <a class="position-relative btn-icon btn-sm btn-light btn rounded-circle" data-bs-toggle="dropdown"
-            aria-expanded="false" href="#" role="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-bell">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-              <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-            </svg>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-2 ms-n2">
-              2
-              <span class="visually-hidden">unread messages</span>
-            </span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-end dropdown-menu-md p-0">
-            <ul class="list-unstyled p-0 m-0">
-              <li class="p-3 border-bottom ">
-                <div class="d-flex gap-3">
-                  <img src="./assets/images/avatar/avatar-1.jpg" alt="" class="avatar avatar-sm rounded-circle" />
-                  <div class="flex-grow-1 small">
-                    <p class="mb-0">New order received</p>
-                    <p class="mb-1">Order #12345 has been placed</p>
-                    <div class="text-secondary">5 minutes ago</div>
-                  </div>
-                </div>
-              </li>
-              <li class="p-3 border-bottom ">
-                <div class="d-flex gap-3">
-                  <img src="./assets/images/avatar/avatar-4.jpg" alt="" class="avatar avatar-sm rounded-circle" />
-                  <div class="flex-grow-1 small">
-                    <p class="mb-0">New user registered</p>
-                    <p class="mb-1">User @john_doe has signed up</p>
-                    <div class="text-secondary">30 minutes ago</div>
-                  </div>
-              </li>
+      <div class="nav-group">
+        <span class="nav-label">Account</span>
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="#"><i class="ti ti-login"></i><span>Log in</span></a></li>
+          <li class="nav-item"><a href="#"><i class="ti ti-user-plus"></i><span>Sign up</span></a></li>
+        </ul>
+      </div>
+    </aside>
 
-              <li class="p-3 border-bottom">
-                <div class="d-flex gap-3">
-                  <img src="./assets/images/avatar/avatar-2.jpg" alt="" class="avatar avatar-sm rounded-circle" />
-                  <div class="flex-grow-1 small">
-                    <p class="mb-0">Payment confirmed</p>
-                    <p class="mb-1">Payment of $299 has been received</p>
-                    <div class="text-secondary">1 hour ago</div>
-                  </div>
-                </div>
-              </li>
-              <li class="px-4 py-3 text-center">
-                <a href="#" class="text-primary ">View all notifications</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <!-- Dropdown -->
-        <li class="ms-3 dropdown">
-          <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="./assets/images/avatar/avatar-1.jpg" alt="" class="avatar avatar-sm rounded-circle" />
-          </a>
-          <div class="dropdown-menu dropdown-menu-end p-0" style="min-width: 200px;">
-            <div>
-              <div class="d-flex gap-3 align-items-center border-dashed border-bottom px-3 py-3">
-                <img src="./assets/images/avatar/avatar-1.jpg" alt="" class="avatar avatar-md rounded-circle" />
-                <div>
-                  <h4 class="mb-0 small">Shrina Tesla</h4>
-                  <p class="mb-0  small">@imshrina</p>
-                </div>
-              </div>
-              <div class="p-3 d-flex flex-column gap-1 small lh-lg">
-                <a href="#!" class="">
+    <div class="main-panel">
+      <nav class="topbar">
+        <div class="topbar-left">
+          <span class="address-pill"><i class="ti ti-world"></i> 127.0.0.1:8000/admin</span>
+        </div>
 
-                  <span>Home</span>
-                </a>
-                <a href="#!" class="">
+        <div class="topbar-tools">
+          <button class="tool-btn" type="button" aria-label="notifications">
+            <i class="ti ti-bell"></i>
+            <span class="badge-count">2</span>
+          </button>
+          <button class="tool-btn" type="button" aria-label="settings">
+            <i class="ti ti-settings"></i>
+          </button>
+          <div class="avatar" aria-label="user profile">A</div>
+        </div>
+      </nav>
 
-                  <span> Inbox</span>
-                </a>
-                <a href="#!" class="">
-
-                  <span> Chat</span>
-                </a>
-                <a href="#!" class="">
-
-                  <span> Activity</span>
-                </a>
-                <a href="#!" class="">
-
-                  <span> Account Settings</span>
-                </a>
-              </div>
-
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-  </nav>
-
-  <!-- SIDEBAR -->
-  <aside id="sidebar" class="sidebar">
-    <div class="logo-area">
-     <a href="index.html" class="d-inline-flex"><img src="./assets/images/logo-icon.svg" alt="" width="24">
-        <span class="logo-text ms-2"> <img src="./assets/images/logo.svg" alt=""></span>
-      </a>
-    </div>
-    <ul class="nav flex-column">
-      <li class="px-4 py-2"><small class="nav-text">Main</small></li>
-      <li><a class="nav-link active" href="index.html"><i class="ti ti-home"></i><span
-            class="nav-text">Dashboard</span></a></li>
-      <li><a class="nav-link" href="inventory.html"><i class="ti ti-box-seam"></i><span
-            class="nav-text">Inventory</span></a></li>
-      <li><a class="nav-link" href="create-product.html"><i class="ti ti-plus"></i><span class="nav-text">Add
-            Product</span></a></li>
-    <li><a class="nav-link" href="reports.html"><i class="ti ti-receipt"></i><span class="nav-text">Reports</span></a>
-      </li>
-    <li><a class="nav-link" href="404-error.html"><i class="ti ti-alert-circle"></i><span class="nav-text">404 Error</span></a>
-      </li>
-      <li><a class="nav-link" href="docs.html"><i class="ti ti-file-text"></i><span class="nav-text">Docs</span></a></li>
-
-
-      <li class="px-4 pt-4 pb-2"><small class="nav-text">Account</small></li>
-      <li><a class="nav-link" href="signin.html"><i class="ti ti-logout"></i><span class="nav-text">Log in</span></a>
-      </li>
-      <li><a class="nav-link" href="signup.html"><i class="ti ti-user-plus"></i><span class="nav-text">Sign
-            up</span></a></li>
-    </ul>
-
-  </aside>
-
-  <!-- MAIN CONTENT -->
-  <main id="content" class="content py-10">
-    <div class="container-fluid">
-      <div class="row ">
-        <div class="col-12">
-          <div class="mb-6">
-            <h1 class="fs-3 mb-1">Dashboard</h1>
+      <main class="content">
+        <div class="page-header">
+          <div>
+            <h1>Dashboard</h1>
             <p>Your main content goes here…</p>
           </div>
+          <button class="primary-btn" type="button">Export</button>
         </div>
-      </div>
-      <div class="row g-3 mb-3">
-        <div class="col-lg-3 col-12">
 
-          <div class="card p-4  bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-2">
-
-            <div class="d-flex gap-3 ">
-              <div class="icon-shape icon-md bg-primary text-white rounded-2">
-                <i class="ti ti-report-analytics fs-4"></i>
-              </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-inner">
+              <div class="stat-icon bg-blue"><i class="ti ti-report-analytics"></i></div>
               <div>
-                <h2 class="mb-3 fs-6">Total Sales</h2>
-                <h3 class="fw-bold mb-0">$25,000</h3>
-                <p class="text-primary mb-0 small">+5% since last month</p>
+                <h2>Total Sales</h2>
+                <h3>$25,000</h3>
+                <p class="text-success-strong">+5% since last month</p>
               </div>
             </div>
           </div>
 
-
-        </div>
-        <div class="col-lg-3 col-12">
-
-          <div class="card p-4  bg-success bg-opacity-10 border border-success border-opacity-25 rounded-2">
-
-            <div class="d-flex gap-3 ">
-              <div class="icon-shape icon-md bg-success text-white rounded-2">
-                <i class="ti ti-repeat fs-4"></i>
-              </div>
+          <div class="stat-card">
+            <div class="stat-inner">
+              <div class="stat-icon bg-green"><i class="ti ti-repeat"></i></div>
               <div>
-                <h2 class="mb-3 fs-6">Total Purchase</h2>
-                <h3 class="fw-bold mb-0">$18,000</h3>
-                <p class="text-success mb-0 small">+22% since last month</p>
+                <h2>Total Purchase</h2>
+                <h3>$18,000</h3>
+                <p class="text-success-strong">+22% since last month</p>
               </div>
             </div>
           </div>
 
-
-        </div>
-        <div class="col-lg-3 col-12">
-
-          <div class="card p-4  bg-info bg-opacity-10 border border-info border-opacity-25 rounded-2">
-
-            <div class="d-flex gap-3 ">
-              <div class="icon-shape icon-md bg-info text-white rounded-2">
-                <i class="ti ti-currency-dollar fs-4"></i>
-              </div>
+          <div class="stat-card">
+            <div class="stat-inner">
+              <div class="stat-icon bg-cyan"><i class="ti ti-currency-dollar"></i></div>
               <div>
-                <h2 class="mb-3 fs-6">Total Expenses</h2>
-                <h3 class="fw-bold mb-0">$9,000</h3>
-                <p class="text-info mb-0 small">+10% since last month</p>
+                <h2>Total Expenses</h2>
+                <h3>$9,000</h3>
+                <p class="text-info-strong">+10% since last month</p>
               </div>
             </div>
           </div>
 
-
-        </div>
-        <div class="col-lg-3 col-12">
-
-          <div class="card p-4  bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-2">
-
-            <div class="d-flex gap-3 ">
-              <div class="icon-shape icon-md bg-warning text-white rounded-2">
-                <i class="ti ti-notes fs-4"></i>
-              </div>
+          <div class="stat-card">
+            <div class="stat-inner">
+              <div class="stat-icon bg-yellow"><i class="ti ti-notes"></i></div>
               <div>
-                <h2 class="mb-3 fs-6">Invoice Due</h2>
-                <h3 class="fw-bold mb-0">$25,000</h3>
-                <p class="text-warning mb-0 small">+35% since last month</p>
+                <h2>Invoice Due</h2>
+                <h3>$25,000</h3>
+                <p class="text-warning-strong">+35% since last month</p>
               </div>
             </div>
           </div>
-
-
         </div>
 
-      </div>
-      <div class="row g-3 mb-3">
-        <div class="col-lg-4 col-12">
-          <div class="card">
-            <div class="card-body p-4">
-              <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
-                <div>
-                  <h3 class="fw-bold h4">$25,458</h3>
-                  <span>Total Profit</span>
-                </div>
-                <div>
-                  <i class="ti ti-layers-subtract fs-1 text-primary"></i>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center small">
-                <div class="text-muted"><span class="text-success">+35%</span> vs Last Month</div>
-                <div><a href="#" class="link-primary text-decoration-underline">View</a></div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-lg-4 col-12">
-          <div class="card">
-            <div class="card-body p-4">
-              <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
-                <div>
-                  <h3 class="fw-bold h4">$45,458</h3>
-                  <span>Total Payment Returns</span>
-                </div>
-                <div>
-                  <i class="ti ti-credit-card fs-1 text-danger"></i>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center small">
-                <div class="text-muted"><span class="text-danger">-20%</span> vs Last Month</div>
-                 <div><a href="#" class="link-primary text-decoration-underline">View</a></div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-lg-4 col-12">
-          <div class="card">
-            <div class="card-body p-4">
-              <div class="d-flex justify-content-between border-bottom pb-5 mb-3">
-                <div>
-                  <h3 class="fw-bold h4">$34,458</h3>
-                  <span>Total Expenses</span>
-                </div>
-                <div>
-                  <i class="ti ti-cash-banknote fs-1 text-warning"></i>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center small">
-                <div class="text-muted"><span class="text-warning">-20%</span> vs Last Month</div>
-                <div><a href="#" class="link-primary text-decoration-underline">View</a></div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-      <div class="row g-3 mb-3">
-        <div class="col-12 col-lg-6">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center bg-transparent px-4 py-3">
-              <h3 class="h5 mb-0">Sales vs Purchase</h3>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-header">
               <div>
-                <select class="form-select form-select-sm">
-                  <option selected>This Year</option>
-                  <option>This Month</option>
-                  <option>This Week</option>
-                </select>
+                <h3>$25,458</h3>
+                <span>Total Profit</span>
               </div>
+              <div class="summary-icon bg-blue"><i class="ti ti-chart-area-line"></i></div>
             </div>
-            <div class="card-body p-4">
-
-              <div id="salesPurchaseChart"></div>
+            <div class="summary-meta">
+              <div><span class="text-success-strong">+35%</span> vs Last Month</div>
+              <a href="#">View</a>
             </div>
           </div>
-        </div>
 
-
-        <div class="col-12 col-lg-6">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center bg-transparent px-4 py-3">
-              <h3 class="h5 mb-0">Overall Information</h3>
+          <div class="summary-card">
+            <div class="summary-header">
               <div>
-                <select class="form-select form-select-sm">
-                  <option selected>Last 6 Months</option>
-                  <option>This Month</option>
-                  <option>This Week</option>
-                </select>
+                <h3>$45,458</h3>
+                <span>Total Payment Returns</span>
               </div>
+              <div class="summary-icon" style="background: linear-gradient(135deg, #fca5a5, #ef4444);"><i class="ti ti-credit-card"></i></div>
             </div>
-            <div class="card-body p-4">
-              <h3 class="h6">Customers Overview</h3>
-              <div class="row align-items-center">
-                <div class="col-sm-6">
-                  <div id="customerChart">
+            <div class="summary-meta">
+              <div><span style="color: var(--danger);">-20%</span> vs Last Month</div>
+              <a href="#">View</a>
+            </div>
+          </div>
 
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="row">
-                    <div class="col-6 border-end">
-                      <div class="text-center ">
-                        <h2 class="mb-1">5.5K</h2>
-                        <p class="text-success mb-2">First Time</p>
-                        <span class="badge bg-success"><i class="ti ti-arrow-up-left me-1"></i>25%</span>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="text-center">
-                        <h2 class="mb-1">3.5K</h2>
-                        <p class="text-warning mb-2">Return</p>
-                        <span class="badge bg-success badge-xs d-inline-flex align-items-center"><i
-                            class="ti ti-arrow-up-left me-1"></i>21%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
+          <div class="summary-card">
+            <div class="summary-header">
+              <div>
+                <h3>$34,458</h3>
+                <span>Total Expenses</span>
               </div>
-              <div class="row text-center border-top mt-4 pt-4">
-                <div class="col-4 border-end">
-                  <h3 class="fw-bold mb-2">6987</h3>
-                  <small class="text-secondary">Suppliers</small>
-                </div>
-                <div class="col-4 border-end">
-                  <h3 class="fw-bold mb-2">4896</h3>
-                  <small class="text-secondary">Customers</small>
-                </div>
-                <div class="col-4">
-                  <h3 class="fw-bold mb-2">487</h3>
-                  <small class="text-secondary">Orders</small>
-                </div>
-              </div>
+              <div class="summary-icon" style="background: linear-gradient(135deg, #fcd34d, #f59e0b);"><i class="ti ti-cash-banknote"></i></div>
+            </div>
+            <div class="summary-meta">
+              <div><span class="text-warning-strong">-20%</span> vs Last Month</div>
+              <a href="#">View</a>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row g-3">
-
-        <!-- CARD 1 — Top Selling Products -->
-        <div class="col-lg-4">
-          <div class="card  h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center px-4 py-3">
-              <h4 class="mb-0 h5">Top Selling Products</h4>
-              <button class="btn btn-sm btn-outline-secondary">
-                <i class="ti ti-calendar"></i> Today
-              </button>
-            </div>
-
-            <ul class="list-group list-group-flush">
-
-              <!-- item -->
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-2.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Wireless Earphones</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">$89 </small>
-                    <small>•</small>
-                    <small>1,250 Units</small>
-                  </div>
-                </div>
-                <span class="badge bg-danger-subtle text-danger border border-danger">18%</span>
-              </li>
-
-              <!-- repeat -->
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-1.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Gaming Joy Stick</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">$49 </small>
-                    <small>•</small>
-                    <small>5,420 Units</small>
-                  </div>
-
-                </div>
-                <span class="badge bg-primary-subtle text-primary border border-primary">32%</span>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-3.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Smart Watch Pro</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">$98 </small>
-                    <small>•</small>
-                    <small>862 Units</small>
-                  </div>
-
-                </div>
-                <span class="badge bg-info-subtle text-info border border-info">22%</span>
-              </li>
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-4.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">USB-C Fast Charger</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">$35 </small>
-                    <small>•</small>
-                    <small>3,200 Units</small>
-                  </div>
-
-                </div>
-                <span class="badge bg-success-subtle text-success border border-success">28%</span>
-              </li>
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-5.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Portable Bluetooth Speaker</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">$65 </small>
-                    <small>•</small>
-                    <small>2,890 Units</small>
-                  </div>
-
-                </div>
-                <span class="badge bg-warning-subtle text-warning border border-warning">25%</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- CARD 2 — Low Stock Products -->
-        <div class="col-lg-4">
-          <div class="card  h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center px-4 py-3">
-              <div class="d-flex align-items-center">
-
-                <h4 class="mb-0 h5">Low Stock Products</h4>
-              </div>
-              <a href="#" class="small text-primary text-decoration-underline">View All</a>
-            </div>
-
-            <ul class="list-group list-group-flush">
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-8.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Wireless Headphones</p>
-                  <small>ID: #554433</small>
-                </div>
-                <div class="d-flex flex-column gap-0 align-items-center">
-                  <span class="fw-semibold text-primary">06</span>
-                  <small class="text-muted">In Stock</small>
-                </div>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-4.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">USB-C Cable Pack</p>
-                  <small>ID: #887766</small>
-                </div>
-                <div class="d-flex flex-column gap-0 align-items-center">
-                  <span class="fw-semibold text-primary">09</span>
-                  <small class="text-muted">In Stock</small>
-                </div>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-10.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Phone Screen Protector</p>
-                  <small>ID: #332211</small>
-                </div>
-                <div class="d-flex flex-column gap-0 align-items-center">
-                  <span class="fw-semibold text-primary">03</span>
-                  <small class="text-muted">In Stock</small>
-                </div>
-              </li>
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-4.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Portable Charger 20000mAh</p>
-                  <small>ID: #998877</small>
-                </div>
-                <div class="d-flex flex-column gap-0 align-items-center">
-                  <span class="fw-semibold text-primary">07</span>
-                  <small class="text-muted">In Stock</small>
-                </div>
-              </li>
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-6.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Mechanical Keyboard RGB</p>
-                  <small>ID: #665544</small>
-                </div>
-                <div class="d-flex flex-column gap-0 align-items-center">
-                  <span class="fw-semibold text-primary">02</span>
-                  <small class="text-muted">In Stock</small>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- CARD 3 — Recent Sales -->
-        <div class="col-lg-4">
-          <div class="card  h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center px-4 py-3">
-              <h4 class="mb-0 h5">Recent Sales</h4>
-              <button class="btn btn-sm btn-outline-secondary">
-                <i class="ti ti-calendar-event"></i> Weekly
-              </button>
-            </div>
-
-            <ul class="list-group list-group-flush">
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-7.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">MacBook Pro 16"</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">Computers </small>
-                    <small>•</small>
-                    <small>2,$2,499</small>
-                  </div>
-
-                </div>
-                <span class="badge bg-success-subtle text-success">Completed</span>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-9.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">AirPods Pro Max</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">Audio </small>
-                    <small>•</small>
-                    <small>$549</small>
-                  </div>
-
-                </div>
-                <span class="badge bg-primary-subtle text-primary">Processing</span>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-8.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">iPad Air 11"</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">Tablets </small>
-                    <small>•</small>
-                    <small>$799</small>
-                  </div>
-                </div>
-                <span class="badge bg-success-subtle text-success">Completed</span>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-3.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Apple Watch Ultra</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">Wearables </small>
-                    <small>•</small>
-                    <small>$799</small>
-                  </div>
-                </div>
-                <span class="badge bg-warning-subtle text-warning">Pending</span>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center gap-3">
-                <img src="./assets/images/product-6.png" class="rounded" width="48">
-                <div class="flex-grow-1">
-                  <p class="mb-1">Magic Keyboard</p>
-                  <div class="d-flex align-items-center gap-2 text-muted">
-                    <small class="fw-semibold">Accessories </small>
-                    <small>•</small>
-                    <small>$299</small>
-                  </div>
-
-                </div>
-                <span class="badge bg-danger-subtle text-danger">Cancelled</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col-12">
-<footer class="text-center py-2 mt-6 text-secondary ">
-        <p class="mb-0">Copyright © 2026 InApp Inventory Dashboard. Developed by <a href="https://codescandy.com/" target="_blank" class="text-primary">CodesCandy</a> • Distributed by <a href="https://themewagon.com/" target="_blank" class="text-primary">ThemeWagon</a> </p>
-      </footer>
-        </div>
-
-      </div>
-
+      </main>
     </div>
-  </main>
+  </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- JS Bawaan Template Admin -->
-    <script src="{{ asset('assets admin/js/sidebar.js') }}"></script>
-    <script src="{{ asset('assets admin/js/custom.js') }}"></script>
-    <script src="{{ asset('assets admin/js/chart.js') }}"></script>
-    <script src="{{ asset('assets admin/js/main.js') }}"></script>
-
-
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
