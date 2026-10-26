@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 class GuestController extends Controller
 {
-    public function index()
-    {
-        return view('guest.DashboardGuest');
-    }
+    public function home()     { return view('guest.home'); }
+    public function login()    { return view('guest.login'); }
+    public function register() { return view('guest.register'); }
 }

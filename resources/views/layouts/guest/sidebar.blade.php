@@ -1,3 +1,0 @@
-{{-- start sidebar --}}
-
-{{-- end sidebar --}}

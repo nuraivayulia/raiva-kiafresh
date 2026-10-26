@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\PelangganController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\PromoController;
@@ -24,3 +25,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // guest
 Route::get('/guest', [GuestController::class, 'index']);
+
+Route::get('/', [GuestController::class, 'home'])->name('home');
+Route::get('/auth', [GuestController::class, 'login'])->name('auth');
+Route::get('/register', [GuestController::class, 'register'])->name('register');
+
+
+Route::post('/auth', [AuthController::class, 'prosesLogin'])->name('auth.proses');
