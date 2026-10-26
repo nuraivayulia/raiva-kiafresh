@@ -2,7 +2,8 @@
 
 @section('content')
 
-       <main class="content">
+{{-- start konten  --}}
+<main class="content">
 
   @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -67,6 +68,6 @@
   </div>
 
 </main>
-     
+{{-- end content  --}}
 
 @endsection
