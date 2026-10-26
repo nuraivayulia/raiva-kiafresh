@@ -14,21 +14,25 @@
       <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         <a href="{{ route('admin.dashboard') }}"><i class="ti ti-home"></i><span>Dashboard</span></a>
       </li>
+      {{-- End Dashboard  --}}
 
       {{-- Pelanggan --}}
       <li class="nav-item {{ request()->routeIs('admin.pelanggan.*') ? 'active' : '' }}">
         <a href="{{ route('admin.pelanggan.index') }}"><i class="ti ti-users"></i><span>Pelanggan</span></a>
       </li>
+      {{-- End Pelanggan  --}}
 
       {{-- Layanan --}}
       <li class="nav-item {{ request()->routeIs('admin.layanan.*') ? 'active' : '' }}">
         <a href="{{ route('admin.layanan.index') }}"><i class="ti ti-wash-machine"></i><span>Layanan</span></a>
       </li>
+      {{-- end Layanan  --}}
 
       {{-- Promo --}}
       <li class="nav-item {{ request()->routeIs('admin.promo.*') ? 'active' : '' }}">
         <a href="{{ route('admin.promo.index') }}"><i class="ti ti-discount"></i><span>Promo</span></a>
       </li>
+      {{-- End Prmo  --}}
     </ul>
   </div>
 

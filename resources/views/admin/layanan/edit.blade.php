@@ -1,7 +1,6 @@
 @extends('layouts.admin.app')
 
 @section('content')
-
 <main class="content">
 
   @if (session('success'))
