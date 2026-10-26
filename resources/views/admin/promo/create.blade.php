@@ -2,6 +2,6 @@
 
 @section('content')
 
-</main>
-      </main>
-{{-- end section  --}}
+    </main>
+    </main>
+    {{-- end section  --}}
